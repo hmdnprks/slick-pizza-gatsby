@@ -38,7 +38,6 @@ export default function Pagination({
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
   const hasNextPage = nextPage <= totalPages;
-  console.log('hasNextPage :>> ', hasNextPage);
   const hasPrevPage = prevPage >= 1;
   return (
     <PaginationStyles>
