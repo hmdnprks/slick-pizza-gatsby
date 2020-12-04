@@ -15,6 +15,12 @@ const OrderStyles = styled.form`
     &.menu {
       grid-column: span 1;
     }
+    input {
+      margin-left: 1rem;
+    }
+  }
+  .nasiPadang {
+    display: none;
   }
   @media (max-width: 900px) {
     fieldset.menu,
