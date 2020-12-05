@@ -1,10 +1,24 @@
 import { useEffect, useState } from 'react';
 
+const gql = String.raw;
+const deets = `
+  name
+  _id
+  image {
+    asset {
+      url
+      metadata {
+        lqip
+      }
+    }
+  }
+`;
+
 export default function useLatestData() {
   // hot slices
   const [hotSlices, setHotSlices] = useState();
   // slicemasters
-  const [sliceMasters, setSliceMasters] = useState();
+  const [slicemasters, setSlicemasters] = useState();
 
   useEffect(function () {
     fetch(process.env.GATSBY_GRAPHQL_ENDPOINT, {
@@ -13,15 +27,15 @@ export default function useLatestData() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `
-          query{
-            StoreSettings(id:"downtown"){
+        query: gql`
+          query {
+            StoreSettings(id: "downtown") {
               name
               slicemaster {
-                name
+                ${deets}
               }
               hotSlices {
-                name
+                ${deets}
               }
             }
           }
@@ -31,11 +45,11 @@ export default function useLatestData() {
       .then((res) => res.json())
       .then((res) => {
         setHotSlices(res.data.StoreSettings.hotSlices);
-        setSliceMasters(res.data.StoreSettings.slicemaster);
+        setSlicemasters(res.data.StoreSettings.slicemaster);
       });
   }, []);
   return {
-    sliceMasters,
+    slicemasters,
     hotSlices,
   };
 }
