@@ -53,7 +53,7 @@ export default function SlicmastersPage({ data, pageContext }) {
       />
       <SliceMasterGrid>
         {slicemasters.map((person) => (
-          <SliceMasterStyles>
+          <SliceMasterStyles key={person.id}>
             <Link to={`/slicemaster/${person.slug.current}`}>
               <h2>
                 <span className="mark">{person.name}</span>

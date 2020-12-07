@@ -5,14 +5,14 @@ export default function LoadingGrid({ count }) {
   return (
     <ItemsGrid>
       {Array.from({ length: count }, (_, i) => (
-        <ItemStyles>
+        <ItemStyles key={`loader-${i}`}>
           <p>
             <span className="mark">Loading...</span>
           </p>
           <img
+            src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAECAQAAADsOj3LAAAADklEQVR42mNkgANGQkwAAJoABWH6GPAAAAAASUVORK5CYII="
             className="loading"
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAE0lEQVR42mN89/RdPQMaYKSBIADcGxBGtzIESAAAAABJRU5ErkJggg=="
-            alt="Loading"
+            alt=""
             width="500"
             height="400"
           />
