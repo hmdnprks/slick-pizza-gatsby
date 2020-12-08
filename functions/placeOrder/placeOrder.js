@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const postmark = require('postmark');
 
 function generateOrderEmail({ order, total }) {
   return `<div>
@@ -23,14 +23,7 @@ function generateOrderEmail({ order, total }) {
   </div>`;
 }
 
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: 587,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-});
+const client = new postmark.ServerClient(process.env.MAIL_POSTMARK_ID);
 
 async function wait(ms) {
   return new Promise((resolve, reject) => {
@@ -64,12 +57,13 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ message: `Why would your order nothing?` }),
     };
   }
-
-  const info = await transporter.sendMail({
-    from: "Slick's Slices <slick@example.com>",
-    to: `${body.name} <${body.email}>, orders@example.com`,
-    subject: 'New Order!',
-    html: generateOrderEmail({ order: body.order, total: body.total }),
+  console.log('client :>> ', client);
+  const info = await client.sendEmail({
+    From: 'me@hamdan.id',
+    To: body.email,
+    Subject: `${body.name} - New Order!`,
+    HtmlBody: generateOrderEmail({ order: body.order, total: body.total }),
+    MessageStream: 'outbound',
   });
   return {
     statusCode: 200,
